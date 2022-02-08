@@ -4,6 +4,8 @@
 class Matrix { 
 public:
     Matrix(const int N, const int M);
+    Matrix(const Matrix& m);
+    Matrix& operator=(const Matrix& m);
     ~Matrix();
 
     void random_fill();
@@ -15,7 +17,8 @@ public:
     friend Matrix operator*(const Matrix&, const Matrix&);
     friend std::ostream& operator<<(std::ostream& os, const Matrix& m);
     
-
+    void alloc();
+    void dealloc();
     void check_size_equality(int N1, int M1) const;
     void check_size_for_mult(int N1, int M1) const;
 

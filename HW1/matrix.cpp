@@ -6,10 +6,53 @@
 Matrix::Matrix(const int N, const int M) : n_rows(N), n_col(M) {
     
     // dynamic matrix initialization
+    alloc();
+}
+
+void Matrix::alloc() {
     matrix = new float* [n_rows];
     for (int i=0; i<n_rows; ++i) {
+        // allocation
         matrix[i] = new float[n_col];
     }
+}
+
+void Matrix::dealloc() {
+    for (int i = 0; i < n_rows; ++i) {
+        delete[] matrix[i];
+    }
+    delete[] matrix;
+}
+
+Matrix::Matrix(const Matrix& m) : n_rows(m.n_rows), n_col(m.n_col) {
+    
+    alloc();
+
+    // copying matrix values
+    for (int i=0; i<n_rows; ++i) {
+        for (int j = 0; j < n_col; ++j) {
+            matrix[i][j] = m.matrix[i][j];
+        }
+    }
+}
+
+Matrix& Matrix::operator=(const Matrix& m) {
+    if (this == &m) {
+        return *this;
+    }
+
+    if (n_rows != m.n_rows || n_col != m.n_col) {
+        dealloc();
+        n_rows = m.n_rows; n_col = m.n_col; 
+        alloc();
+    }
+
+    for (int i=0; i<n_rows; ++i) {
+        for (int j = 0; j < n_col; ++j) {
+            matrix[i][j] = m.matrix[i][j];
+        }
+    }
+    return *this;
 }
 
 Matrix::~Matrix() {
